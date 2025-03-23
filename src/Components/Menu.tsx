@@ -113,7 +113,7 @@ function Menu() {
       // Fetch images for each menu item
       const imagePromises: Record<number, Promise<string[]>> = {};
       for (const item of parsedData['items']) {
-        imagePromises[item.id] = fetchPixabayImages(item.Title);
+        imagePromises[item.id] = fetchPixabayImages(item);
       }
       
       // Resolve all promises and set images
@@ -163,7 +163,7 @@ function Menu() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
+            className="relative p-3 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
             onClick={toggleCart}
           >
             <CgShoppingCart className="text-xl" />
@@ -269,7 +269,7 @@ function Menu() {
                     <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 group-hover:text-gray-100 dark:group-hover:text-indigo-300 transition-colors">
                       {item["Title"]}
                     </h3>
-                    <span className="text-lg font-semibold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent group-hover:text-gray-100 dark:group-hover:text-indigo-300">
+                    <span className="text-lg font-semibold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
                       ${item.Price}
                     </span>
                   </div>
