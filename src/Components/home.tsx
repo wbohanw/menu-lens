@@ -261,7 +261,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-opacity-80 px-10">
+    <div className="flex items-center justify-center min-h-screen bg-opacity-80 px-10 relative mx-auto min-w-screen">
       <div className="absolute top-0 left-0 w-full h-full" style={{ zIndex: -1 }}>
         <Aurora colorStops={["#f0b0ca", "#a89cdd", "#92a5f0"]} speed={0.5}/>
       </div>

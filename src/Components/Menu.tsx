@@ -155,8 +155,8 @@ function Menu() {
 <div className="fixed top-0 left-0 w-full h-full" style={{ zIndex: -1, transform: 'scale(1)', transformOrigin: 'top left' }}>
   <Aurora colorStops={["#f0b0ca", "#a89cdd", "#92a5f0"]} speed={0.5}/>
 </div>
-            <div className="bg-gray-50/60 dark:bg-gray-800 shadow-lg">
-        <header className="flex justify-between items-center px-6 py-4 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <div className="bg-black/20 shadow-lg">
+        <header className="flex justify-between items-center px-6 bg-gray-50/20 py-4 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700">
           <h1 className="text-2xl font-bold bg-gradient-to-r text-white from-amber-500 to-orange-500 bg-clip-text text-transparent">
             Menu Lens
           </h1>
@@ -207,10 +207,10 @@ function Menu() {
               placeholder="Search menu items..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full px-4 py-2 rounded-lg bg-transparent border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-full px-4 py-2 rounded-lg bg-transparent dark:bg-gray-700 dark:text-white border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
             />
             
-            <div className="flex items-center bg-gray-50/60 dark:bg-gray-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-gray-600">
+            <div className="flex items-center bg-transparent dark:bg-gray-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-gray-600">
               <GrSort className="text-gray-400 mr-2" />
               <select
                 value={sortOrder}
@@ -223,7 +223,7 @@ function Menu() {
               </select>
             </div>
 
-            <div className="flex items-center bg-transparent rounded-lg px-3 py-2 border border-gray-200 dark:border-gray-600">
+            <div className="flex items-center bg-transparent dark:bg-gray-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-gray-600">
               <label htmlFor="allergy-select" className="text-gray-400 mr-2">Allergy:</label>
               <select
                 id="allergy-select"
@@ -241,46 +241,69 @@ function Menu() {
           </div>
 
           {/* Menu Items Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredData?.map((item) => (
               <motion.div
                 key={item.id}
-                whileHover={{ scale: 1.02 }}
-                className="bg-transparent rounded-xl shadow-sm hover:shadow-lg transition-shadow cursor-pointer border border-gray-200 dark:border-gray-600"
-                onClick={() => handleItemClick(item)}
+                whileHover={{ y: -5 }}
+                className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-sm hover:shadow-xl transition-all overflow-hidden"
               >
-                <div className="p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-semibold text-white">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
+                
+                <div className="relative h-64 overflow-hidden">
+                  {itemImages[item.id] ? (
+                    <img 
+                      src={itemImages[item.id]!} 
+                      alt={item.Title} 
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-purple-50 to-blue-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                      <PiBowlFoodBold className="text-4xl text-purple-400 dark:text-purple-300 opacity-75" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-5 relative z-20">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 group-hover:text-gray-100 dark:group-hover:text-indigo-300 transition-colors">
                       {item["Title"]}
                     </h3>
-                    <span className="text-white font-bold">${item.Price}</span>
+                    <span className="text-lg font-semibold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent group-hover:text-gray-100 dark:group-hover:text-indigo-300">
+                      ${item.Price}
+                    </span>
                   </div>
-                  <p className="text-sm text-white mb-3">
+                  
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 italic">
                     {item["Original Title"]}
                   </p>
-                  <div className="h-48 bg-transparent rounded-lg mb-3 flex items-center justify-center overflow-hidden">
-                    {itemImages[item.id] ? (
-                      <img 
-                        src={itemImages[item.id]!} 
-                        alt={item.Title} 
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    ) : (
-                      <span className="text-white">No image available</span>
-                    )}
-                  </div>
-                  <div className="flex flex-wrap gap-2">
+
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {item["Allergy tags"].map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-1 text-xs rounded-full bg-transparent text-white"
+                        className="px-3 py-1 text-xs font-medium rounded-full bg-amber-100/50 dark:bg-gray-700/50 text-amber-700 dark:text-amber-300 border border-amber-200/30"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
+
+                  <div className="absolute bottom-4 right-4">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      className="p-2 bg-white/90 dark:bg-gray-700/90 backdrop-blur-sm rounded-full shadow-sm hover:shadow-md transition-all"
+                      onClick={() => handleItemClick(item)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-300" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                      </svg>
+                    </motion.button>
+                  </div>
                 </div>
+
+                {/* Hover Gradient Border */}
+                <div className="absolute inset-0 rounded-2xl pointer-events-none border-2 border-transparent group-hover:border-amber-200/30 transition-colors" />
               </motion.div>
             ))}
           </div>
@@ -297,15 +320,15 @@ function Menu() {
                 <motion.div
                   initial={{ y: 50 }}
                   animate={{ y: 0 }}
-                  className="bg-gray-200 dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md relative"
+                  className="bg-gray-200 dark:bg-black/70 rounded-2xl p-6 w-full max-w-md relative dark:text-white"
                 >
                   <button
                     onClick={handleClosePopup}
-                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-black dark:text-white"
                   >
                     ✕
                   </button>
-                  <h3 className="text-2xl font-bold mb-4 text-black">
+                  <h3 className="text-2xl font-bold mb-4 text-black dark:text-white">
                     {selectedItem["Title"]}
                   </h3>
                   {itemImages[selectedItem.id] && (
@@ -317,15 +340,15 @@ function Menu() {
                       />
                     </div>
                   )}
-                  <div className="space-y-4">
-                    <p className="text-black">
+                  <div className="space-y-4 dark:text-white">
+                    <p className="text-black dark:text-white">
                       {selectedItem.Description}
                     </p>
                     <div className="bg-transparent p-4 rounded-lg">
-                      <h4 className="font-semibold mb-2 text-black">
+                      <h4 className="font-semibold mb-2 text-black dark:text-white">
                         Ingredients
                       </h4>
-                      <p className="text-black">
+                      <p className="text-black dark:text-white">
                         {selectedItem.Ingredients.join(", ")}
                       </p>
                     </div>
@@ -333,21 +356,21 @@ function Menu() {
                       <div className="flex items-center gap-4">
                         <button
                           onClick={decrementQuantity}
-                          className="w-8 h-8 rounded-lg bg-transparent border border-black flex items-center justify-center"
+                          className="w-8 h-8 rounded-lg bg-transparent border border-black flex items-center justify-center text-black dark:text-white"
                         >
                           -
                         </button>
-                        <span className="text-xl font-medium">{quantity}</span>
+                        <span className="text-xl font-medium text-black dark:text-white">{quantity}</span>
                         <button
                           onClick={incrementQuantity}
-                          className="w-8 h-8 rounded-lg bg-transparent border border-black flex items-center justify-center"
+                          className="w-8 h-8 rounded-lg bg-transparent border border-black flex items-center justify-center text-black dark:text-white"
                         >
                           +
                         </button>
                       </div>
                       <button
                         onClick={() => addToCart(selectedItem)}
-                        className="px-6 py-2 bg-transparent border border-black hover:bg-amber-600 text-black rounded-lg transition-colors"
+                        className="px-6 py-2 bg-transparent border border-black hover:bg-amber-600 text-black dark:text-white dark:border-white rounded-lg transition-colors"
                       >
                         Add to Cart
                       </button>
