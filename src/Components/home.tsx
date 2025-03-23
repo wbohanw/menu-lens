@@ -278,7 +278,7 @@ const Home: React.FC = () => {
     >
       MenuLens
     </h1>
-          <div className="flex flex-col justify-center rounded-lg mx-4 rounded-xl">
+          <div className="mt-10 flex flex-col justify-center rounded-lg mx-4 rounded-xl">
             {loading ? (
               <div className="flex justify-center items-center">
                 <Mosaic color={["#A3A4BC", "#7990A9", "#DABBAE", "#A3B7C3"]} size="medium" text="" textColor="" />
