@@ -113,7 +113,7 @@ function Menu() {
       // Fetch images for each menu item
       const imagePromises: Record<number, Promise<string[]>> = {};
       for (const item of parsedData['items']) {
-        imagePromises[item.id] = fetchPixabayImages(item);
+        imagePromises[item.id] = fetchPixabayImages(item.Title);
       }
       
       // Resolve all promises and set images
