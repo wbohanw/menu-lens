@@ -13,7 +13,6 @@
     "@fontsource/orbitron": "^5.2.5",
     "@tailwindcss/vite": "^4.0.15",
     "@types/react-router-dom": "^5.3.3",
-    "flowbite-react": "^0.10.2",
     "framer-motion": "^12.5.0",
     "ogl": "^1.0.11",
     "react": "^18.3.1",
